@@ -19,9 +19,8 @@
 
     <actions>
         <action id="AddThisAction" class="com.sohocn.thisifier.actions.AddThisAction"
-                text="Add 'this' to method call" description="Add 'this' prefix to method call">
-            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="CutCopyPasteGroup"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt T"/>
+                text="Add 'this' prefix to method call" description="Add 'this' prefix to method call">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>
