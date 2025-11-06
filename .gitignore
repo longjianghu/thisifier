@@ -1,0 +1,39 @@
+# Build output
+build/
+.gradle/
+classes/
+out/
+
+# Gradle files
+.gradle
+.gradle-kotlin-dsl
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Plugin builds
+*.jar
+
+# Logs
+logs/
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test coverage
+.coverage
+htmlcov/
+
+# Temporary files
+*.tmp
+*.temp

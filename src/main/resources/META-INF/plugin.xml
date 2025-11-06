@@ -1,0 +1,56 @@
+<!-- Plugin Configuration File -->
+<idea-plugin>
+    <id>com.sohocn.thisifier</id>
+    <name>Thisifier</name>
+    <version>1.0.0</version>
+    <vendor email="215241062@qq.com">龙江湖</vendor>
+
+    <description><![CDATA[
+        Thisifier 是一款 IntelliJ IDEA 代码增强工具，通过一次右键点击即可快速将当前类内部的方法调用转换为 `this.xxx()` 格式。
+        <br><br>
+        <b>中文说明：</b>
+        <ul>
+            <li>上下文感知右键菜单，智能识别方法调用</li>
+            <li>智能转换实例方法调用为 `this.方法名()` 格式</li>
+            <li>智能忽略机制，自动跳过已有 `this` 前缀的方法和静态方法</li>
+            <li>支持批量操作，可同时处理多个方法调用</li>
+        </ul>
+        <br>
+        <b>English Description:</b>
+        <ul>
+            <li>Context-aware right-click menu for method calls</li>
+            <li>Smart conversion of instance method calls to `this.methodName()`</li>
+            <li>Intelligent ignore mechanism for existing `this` calls and static methods</li>
+            <li>Batch operation support for multiple selections</li>
+        </ul>
+    ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>Version 1.0.0</h3>
+        <ul>
+            <li>Initial release of Thisifier plugin</li>
+            <li>Basic functionality for adding 'this' to method calls</li>
+            <li>Context-aware menu items</li>
+            <li>Smart filtering for static methods and existing this calls</li>
+        </ul>
+    ]]></change-notes>
+
+    <!-- Plugin Dependencies -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.java</depends>
+
+    <!-- Extension Points -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add extension points here if needed -->
+    </extensions>
+
+    <!-- Actions -->
+    <actions>
+        <action id="Thisifier.AddThisAction"
+                class="com.sohocn.thisifier.actions.AddThisAction"
+                text="Add 'this' to method call"
+                description="Add 'this' prefix to the current method call">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
