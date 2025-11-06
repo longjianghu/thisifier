@@ -1,10 +1,11 @@
 <idea-plugin>
     <id>com.sohocn.thisifier</id>
     <name>Thisifier</name>
-    <vendor email="support@sohocn.com" url="https://www.sohocn.com">SohoCN</vendor>
+    <vendor email="215241062@qq.com">龙江湖</vendor>
 
     <description><![CDATA[
-    A plugin that adds 'this.' prefix to method calls in Java code with a simple right-click.
+   <p>一个简单的右键点击即可为Java代码中的方法调用添加 'this.' 前缀的插件。</p>
+   <p>A plugin that adds 'this.' prefix to method calls in Java code with a simple right-click.</p>
     ]]></description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
