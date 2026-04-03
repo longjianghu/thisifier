@@ -21,11 +21,6 @@ import com.sohocn.thisifier.util.MethodDetectionUtil;
  */
 public class AddThisAction extends AnAction {
     @Override
-    public ActionUpdateThread getActionUpdateThread() {
-        return ActionUpdateThread.BGT;
-    }
-    
-    @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
         PsiFile psiFile = e.getData(CommonDataKeys.PSI_FILE);
         Editor editor = e.getData(CommonDataKeys.EDITOR);
@@ -43,20 +38,22 @@ public class AddThisAction extends AnAction {
                 }
             }
 
-            // Process field references (including injected fields)
-            // Collect references first to avoid concurrent modification issues
             Collection<PsiReferenceExpression> referenceExpressions = PsiTreeUtil.findChildrenOfType(psiFile, PsiReferenceExpression.class);
             for (PsiReferenceExpression referenceExpression : referenceExpressions) {
-                // Skip if it's a method call
                 if (referenceExpression instanceof PsiMethodCallExpression) {
                     continue;
                 }
-                // Add this. prefix for injected fields
+
                 if (MethodDetectionUtil.isInjectedField(referenceExpression, psiFile)) {
                     this.addThisPrefix(referenceExpression);
                 }
             }
         });
+    }
+
+    @Override
+    public ActionUpdateThread getActionUpdateThread() {
+        return ActionUpdateThread.BGT;
     }
 
     @Override
@@ -72,45 +69,6 @@ public class AddThisAction extends AnAction {
             boolean hasInjectedField = this.hasInjectedFieldReferenceInFile((PsiJavaFile)psiFile);
             e.getPresentation().setEnabled(hasValidMethodCall || hasInjectedField);
         }
-    }
-    
-    /**
-     * Check if there's at least one method call in the file that satisfies the condition
-     *
-     * @param javaFile the Java file to check
-     * @return true if there's at least one valid method call, false otherwise
-     */
-    private boolean hasValidMethodCallInFile(PsiJavaFile javaFile) {
-        Collection<PsiMethodCallExpression> methodCalls = PsiTreeUtil.findChildrenOfType(javaFile, PsiMethodCallExpression.class);
-
-        for (PsiMethodCallExpression methodCall : methodCalls) {
-            if (methodCall != null && MethodDetectionUtil.isCurrentClassInstanceMethod(methodCall, javaFile)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Check if there's at least one injected field reference in the file
-     *
-     * @param javaFile the Java file to check
-     * @return true if there's at least one injected field reference, false otherwise
-     */
-    private boolean hasInjectedFieldReferenceInFile(PsiJavaFile javaFile) {
-        Collection<PsiReferenceExpression> references = PsiTreeUtil.findChildrenOfType(javaFile, PsiReferenceExpression.class);
-
-        for (PsiReferenceExpression reference : references) {
-            if (reference instanceof PsiMethodCallExpression) {
-                continue;
-            }
-            if (reference != null && MethodDetectionUtil.isInjectedField(reference, javaFile)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void addThisPrefix(PsiMethodCallExpression methodCall) {
@@ -137,5 +95,34 @@ public class AddThisAction extends AnAction {
                 "this." + referenceExpression.getText(), referenceExpression);
 
         referenceExpression.replace(newReferenceExpression);
+    }
+
+    private boolean hasInjectedFieldReferenceInFile(PsiJavaFile javaFile) {
+        Collection<PsiReferenceExpression> references =
+            PsiTreeUtil.findChildrenOfType(javaFile, PsiReferenceExpression.class);
+
+        for (PsiReferenceExpression reference : references) {
+            if (reference instanceof PsiMethodCallExpression) {
+                continue;
+            }
+            if (reference != null && MethodDetectionUtil.isInjectedField(reference, javaFile)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean hasValidMethodCallInFile(PsiJavaFile javaFile) {
+        Collection<PsiMethodCallExpression> methodCalls =
+            PsiTreeUtil.findChildrenOfType(javaFile, PsiMethodCallExpression.class);
+
+        for (PsiMethodCallExpression methodCall : methodCalls) {
+            if (methodCall != null && MethodDetectionUtil.isCurrentClassInstanceMethod(methodCall, javaFile)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

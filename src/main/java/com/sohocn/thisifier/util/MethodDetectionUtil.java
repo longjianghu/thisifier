@@ -1,11 +1,12 @@
 package com.sohocn.thisifier.util;
 
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTreeUtil;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.intellij.psi.*;
+import com.intellij.psi.util.PsiTreeUtil;
 
 /**
  * The type Method detection util.
@@ -13,7 +14,6 @@ import java.util.Set;
  * @author longjianghu
  */
 public class MethodDetectionUtil {
-
     private static final Set<String> INJECTION_ANNOTATIONS = new HashSet<>();
 
     static {
@@ -24,6 +24,7 @@ public class MethodDetectionUtil {
         INJECTION_ANNOTATIONS.add("javax.inject.Inject");
         INJECTION_ANNOTATIONS.add("jakarta.inject.Inject");
     }
+
     /**
      * Check if the method call is an instance method of the current class
      *
