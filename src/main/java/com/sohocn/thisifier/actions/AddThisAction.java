@@ -1,17 +1,18 @@
 package com.sohocn.thisifier.actions;
 
+import java.util.Collection;
+
+import org.jetbrains.annotations.NotNull;
+
+import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.ActionUpdateThread;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.psi.*;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.sohocn.thisifier.util.MethodDetectionUtil;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collection;
 
 /**
  * The type Add this action.
@@ -38,7 +39,7 @@ public class AddThisAction extends AnAction {
             Collection<PsiMethodCallExpression> methodCallsCollection = PsiTreeUtil.findChildrenOfType(psiFile, PsiMethodCallExpression.class);
             for (PsiMethodCallExpression methodCall : methodCallsCollection) {
                 if (MethodDetectionUtil.isCurrentClassInstanceMethod(methodCall, psiFile)) {
-                    addThisPrefix(methodCall);
+                    this.addThisPrefix(methodCall);
                 }
             }
 
@@ -52,7 +53,7 @@ public class AddThisAction extends AnAction {
                 }
                 // Add this. prefix for injected fields
                 if (MethodDetectionUtil.isInjectedField(referenceExpression, psiFile)) {
-                    addThisPrefix(referenceExpression);
+                    this.addThisPrefix(referenceExpression);
                 }
             }
         });
@@ -67,8 +68,8 @@ public class AddThisAction extends AnAction {
         Editor editor = e.getData(CommonDataKeys.EDITOR);
 
         if (psiFile instanceof PsiJavaFile && editor != null) {
-            boolean hasValidMethodCall = hasValidMethodCallInFile((PsiJavaFile) psiFile);
-            boolean hasInjectedField = hasInjectedFieldReferenceInFile((PsiJavaFile) psiFile);
+            boolean hasValidMethodCall = this.hasValidMethodCallInFile((PsiJavaFile)psiFile);
+            boolean hasInjectedField = this.hasInjectedFieldReferenceInFile((PsiJavaFile)psiFile);
             e.getPresentation().setEnabled(hasValidMethodCall || hasInjectedField);
         }
     }
