@@ -52,7 +52,7 @@ public class AddThisAction extends AnAction {
     }
 
     @Override
-    public ActionUpdateThread getActionUpdateThread() {
+    public @NotNull ActionUpdateThread getActionUpdateThread() {
         return ActionUpdateThread.BGT;
     }
 
@@ -74,19 +74,19 @@ public class AddThisAction extends AnAction {
     private void addThisPrefix(PsiMethodCallExpression methodCall) {
         PsiReferenceExpression methodExpression = methodCall.getMethodExpression();
 
-        if (methodExpression.getQualifierExpression() != null) {
+        if (methodExpression.getText().startsWith("this.")) {
             return;
         }
 
-        PsiElementFactory factory = JavaPsiFacade.getElementFactory(methodCall.getProject());
-        PsiReferenceExpression newMethodExpression = (PsiReferenceExpression) factory.createExpressionFromText(
-                "this." + methodExpression.getText(), methodCall);
-
-        methodExpression.replace(newMethodExpression);
+        this.addThisPrefix(methodExpression);
     }
 
     private void addThisPrefix(PsiReferenceExpression referenceExpression) {
         if (referenceExpression.getQualifierExpression() != null) {
+            return;
+        }
+
+        if (referenceExpression.getText().startsWith("this.")) {
             return;
         }
 

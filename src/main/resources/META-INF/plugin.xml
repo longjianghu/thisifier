@@ -7,6 +7,11 @@
     <p>这个插件帮助Java开发者快速为方法调用添加'this.'前缀，提高代码的一致性和可读性。点击鼠标右键的菜单项 Add 'this' prefix to method call 即可快速添加!</p>
     ]]></description>
     <change-notes><![CDATA[
+     <h2>1.0.2</h2>
+    <ul>
+       <li>Fix duplicate 'this' prefix addition!</li>
+        <li>修复重复添加 this的 BUG!</li>
+    </ul>
     <h2>1.0.1</h2>
     <ul>
        <li>Supports the latest 2026 version.</li>
